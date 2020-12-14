@@ -48,9 +48,6 @@ class PredictedFrame:
         table = str.maketrans('|', 'I', '<>{}[];`@#$%^*_=~\\')
         self.text = self.text.translate(table).replace(' \n ', '\n').strip()
 
-    def is_similar_to(self, other: PredictedFrame, threshold=70) -> bool:
-        return fuzz.ratio(self.text, other.text) >= threshold
-
 
 class PredictedSubtitle:
     frames: List[PredictedFrame]
@@ -77,9 +74,6 @@ class PredictedSubtitle:
         if self.frames:
             return self.frames[-1].index
         return 0
-
-    def is_similar_to(self, other: PredictedSubtitle) -> bool:
-        return fuzz.partial_ratio(self.text, other.text) >= self.sim_threshold
 
     def __repr__(self):
         return '{} - {}. {}'.format(self.index_start, self.index_end, self.text)
